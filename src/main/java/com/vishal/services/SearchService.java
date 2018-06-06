@@ -48,24 +48,33 @@ public class SearchService {
 
 		List<Item> res = new ArrayList<>();
 
+		// Create Thread and call 1st API inside the thread
 		final Callable<List<Item>> callableSearchByName = new Callable<List<Item>>() {
 			@Override
 			public List<Item> call() {
 				return searchByName(name);
 			}
 		};
+		
+
+		//Add the thread to a thread pool executor and we get the Future object 
 		Future<List<Item>> futureSearchByName = EXECUTOR_SERVICE.submit(callableSearchByName);
 
+		// Create Thread and call 2nd API inside the thread
 		final Callable<List<Item>> callableSearchByCategory = new Callable<List<Item>>() {
 			@Override
 			public List<Item> call() {
 				return searchByCategory(name);
 			}
 		};
+		
+		//Add the thread to a thread pool executor and we get the Future object
 		Future<List<Item>> futureSearchByCategory = EXECUTOR_SERVICE.submit(callableSearchByCategory);
 
+		//Retrieve results from the future objects and this will timeout in 2 secs if the API does not respond in 2secs
 		List<Item> res1 = futureSearchByName.get(2000, TimeUnit.MILLISECONDS);
 
+		//Retrieve results from the future objects and this will timeout in 3 secs if the API does not respond in 3secs
 		List<Item> res2 = futureSearchByCategory.get(3000, TimeUnit.MILLISECONDS);
 
 		res.addAll(res1);
