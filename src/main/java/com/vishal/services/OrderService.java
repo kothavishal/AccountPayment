@@ -18,12 +18,5 @@ public class OrderService {
 
 	}
 
-	public boolean isOrderReturnAccepted(Order o) {
-		for (Item i : o.getItems()) {
-			if (!i.isReturnAccepted()) {
-				return false;
-			}
-		}
-		return true;
-	}
+	
 }

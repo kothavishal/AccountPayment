@@ -12,6 +12,18 @@ public class Order {
 	
 	private Double totalPrice;
 
+	/**
+	 * Example of polymorphism
+	 */
+	public boolean isOrderReturnAccepted(Order o) {
+		for (Item i : o.getItems()) {
+			if (!i.isReturnAccepted()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public List<Item> getItems() {
 		return items;
 	}
